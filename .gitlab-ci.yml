@@ -17,12 +17,14 @@ build-job:
     - npm run build
   artifacts:
     paths:
-      - /home/gitlab-runner/
+      - node_modules
 
 deploy-job:
   stage: deploy
+  artifacts:
+    paths:
+      - node_modules/
   only:
     - master
-  environment: production
   script:
     - npm run start
