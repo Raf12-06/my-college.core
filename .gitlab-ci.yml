@@ -21,9 +21,6 @@ build-job:
 
 deploy-job:
   stage: deploy
-  artifacts:
-    paths:
-      - node_modules/
   only:
     - master
   script:
