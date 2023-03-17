@@ -11,9 +11,6 @@ build-job:
   script:
     - npm install
     - npm run build
-  artifacts:
-    paths:
-      - node_modules
 
 deploy-job:
   stage: deploy
