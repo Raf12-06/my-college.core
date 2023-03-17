@@ -1,0 +1,28 @@
+image: node:18.15
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - deploy
+
+build-job:
+  stage: build
+  only:
+    - main
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - /home/gitlab-runner/
+
+deploy-job:
+  stage: deploy
+  only:
+    - main
+  environment: production
+  script:
+    - npm run start
