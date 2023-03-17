@@ -4,6 +4,13 @@ stages:
   - build
   - deploy
 
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm//
+
 build-job:
   stage: build
   only:
