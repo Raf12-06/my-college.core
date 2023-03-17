@@ -25,4 +25,4 @@ deploy-job:
     - master
   environment: production
   script:
-    - npm run start
+    - sudo npm run start
