@@ -8,6 +8,9 @@ stages:
   - build
   - deploy
 
+before_script:
+  - nvm use 18.15.0
+
 build-job:
   stage: build
   only:
