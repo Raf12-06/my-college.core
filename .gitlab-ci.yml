@@ -1,8 +1,8 @@
-image: node:18.15.0
+default:
+  image: node:18.15.0
 
-cache:
-  paths:
-    - node_modules/
+  services:
+    - mysql:latest
 
 stages:
   - build
@@ -15,9 +15,6 @@ build-job:
   script:
     - npm install
     - npm run build
-  artifacts:
-    paths:
-      - /home/gitlab-runner/
 
 deploy-job:
   stage: deploy
@@ -25,4 +22,3 @@ deploy-job:
     - master
   script:
     - npm run start
-    - echo "ГОТОВО"
