@@ -11,7 +11,7 @@ build-job:
     paths:
       - /home/gitlab-runner/
   script:
-    - npm install
+    - npm ci
     - npm run build
 
 deploy-job:
