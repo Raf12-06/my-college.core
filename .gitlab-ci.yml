@@ -23,3 +23,5 @@ deploy-job:
   stage: deploy
   only:
     - master
+  script:
+    - npm run start
