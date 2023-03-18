@@ -8,14 +8,13 @@ stages:
   - build
   - deploy
 
-before_script:
-  - nvm use 18.15.0
-
 build-job:
   stage: build
   only:
     - master
   script:
+    - node -v
+    - npm -v
     - npm install
     - npm run build
   artifacts:
