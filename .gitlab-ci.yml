@@ -1,9 +1,5 @@
 image: node:18.15.0
 
-cache:
-  paths:
-    - node_modules/
-
 stages:
   - build
   - deploy
@@ -13,8 +9,6 @@ build-job:
   only:
     - master
   script:
-    - node -v
-    - npm -v
     - npm install
     - npm run build
   artifacts:
@@ -27,3 +21,4 @@ deploy-job:
     - master
   script:
     - npm run start
+    - echo "ГОТОВО"
