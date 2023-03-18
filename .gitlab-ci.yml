@@ -4,6 +4,10 @@ default:
   services:
     - mysql:latest
 
+cache:
+  paths:
+    - node_modules/
+
 stages:
   - build
   - deploy
