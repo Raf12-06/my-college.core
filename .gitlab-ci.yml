@@ -2,6 +2,7 @@ stages:
   - build
   - deploy
 
+
 build-job:
   image: node:18.15.0
   stage: build
