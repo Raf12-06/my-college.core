@@ -14,7 +14,6 @@ build-job:
     - npm install
     - npm run build
 
-
 deploy-job:
   image: gitlab/dind
   stage: deploy
