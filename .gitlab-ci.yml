@@ -8,12 +8,14 @@ stages:
   - build
   - deploy
 
+before_script:
+  - npm install
+
 build-job:
   stage: build
   only:
     - master
   script:
-    - npm install
     - npm run build
   artifacts:
     paths:
