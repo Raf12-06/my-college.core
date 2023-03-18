@@ -15,11 +15,11 @@ build-job:
   stage: build
   only:
     - master
-  script:
-    - npm run build
   artifacts:
     paths:
-      - node_modules
+      - node_modules  
+  script:
+    - npm run build
 
 deploy-job:
   stage: deploy
