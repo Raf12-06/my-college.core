@@ -1,26 +1,25 @@
+image: node:18.15.0
+
+cache:
+  paths:
+    - node_modules/
+
 stages:
   - build
   - deploy
 
-
 build-job:
-  image: node:18.15.0
   stage: build
   only:
     - master
-  artifacts:
-    paths:
-      - /home/gitlab-runner/
   script:
     - npm install
     - npm run build
+  artifacts:
+    paths:
+      - /home/gitlab-runner/
 
 deploy-job:
-  image: gitlab/dind
   stage: deploy
-  services:
-    - docker:dind
   only:
     - master
-  script:
-    - npm run start
