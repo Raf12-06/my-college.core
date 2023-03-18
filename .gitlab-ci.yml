@@ -7,12 +7,12 @@ build-job:
   stage: build
   only:
     - master
-  script:
-    - npm install
-    - npm run build
   artifacts:
     paths:
       - /home/gitlab-runner/
+  script:
+    - npm install
+    - npm run build
 
 deploy-job:
   image: gitlab/dind
