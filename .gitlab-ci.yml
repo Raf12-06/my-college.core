@@ -15,3 +15,4 @@ build image:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISRTY --password-stdin
     - docker build -t $CI_REGISRTY_IMAGE .
     - docker push $CI_REGISRTY_IMAGE
+  
