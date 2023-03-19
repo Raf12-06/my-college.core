@@ -25,3 +25,4 @@ deploy-job:
     - master
   script:
     - pm2 start npm --name my-college.core -- run start
+    - pm2 save
