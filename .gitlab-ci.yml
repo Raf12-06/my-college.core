@@ -24,5 +24,4 @@ deploy-job:
   only:
     - master
   script:
-    - npm run start
-    - echo "ГОТОВО!"
+    - pm2 start npm --name my-college.core -- run start
