@@ -1,3 +1,5 @@
+image: node:18.15.0
+
 stages:
   - build
   - build-image
