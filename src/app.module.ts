@@ -21,7 +21,9 @@ import * as path from 'path';
       username: process.env.MY_SQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DB,
-      models: [],
+      models: [
+
+      ],
       autoLoadModels: true,
     }),
   ],
