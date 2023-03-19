@@ -1,5 +1,7 @@
 build app:
   image: $CI_REGISRTY_IMAGE
+  only:
+    - master
   script:
     - node -v
     - npm -v
@@ -8,6 +10,8 @@ build app:
     - npm run start
 
 build image:
+  only:
+    - master
   image: docker:20.10.10
   services:
     - docker:20.10.10-dind
