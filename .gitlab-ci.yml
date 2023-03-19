@@ -1,4 +1,19 @@
-build_image:
+stages:
+  - build
+  - build-image
+
+build-app-job:
+  stage: build
+  only:
+    - master
   script:
-    - docker-compose build -t my-college-image .
-    - docker-compose run my-college-image /script/to/run/tests
+    - npm install
+    - npm run build
+
+build-image-job:
+  stage: build-image
+  only:
+    - master
+  script:
+    - docker-compose build
+    - docker-compose up
