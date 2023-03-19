@@ -25,3 +25,4 @@ deploy-job:
     - master
   script:
     - npm run start
+    - echo "ГОТОВО!"
