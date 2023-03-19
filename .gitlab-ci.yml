@@ -1,26 +1,27 @@
 image: node:18.15.0
 
-stages:
-  - build
-  - build-image
-
 cache:
   paths:
     - node_modules/
-    - dist/
 
-build-app-job:
+stages:
+  - build
+  - deploy
+
+build-job:
   stage: build
   only:
     - master
   script:
     - npm install
     - npm run build
+  artifacts:
+    paths:
+      - /home/gitlab-runner/
 
-build-image-job:
-  stage: build-image
+deploy-job:
+  stage: deploy
   only:
     - master
   script:
-    - docker-compose build
-    - docker-compose up
+    - npm run start
