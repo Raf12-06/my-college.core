@@ -1,0 +1,17 @@
+build app:
+  image: $CI_REGISRTY_IMAGE
+  script:
+    - node -v
+    - npm -v
+    - npm install
+    - npm run build
+    - npm run start
+
+build image:
+  image: docker:20.10.10
+  services:
+    - docker:20.10.10-dind
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISRTY --password-stdin
+    - docker build -t $CI_REGISRTY_IMAGE .
+    - docker push $CI_REGISRTY_IMAGE
