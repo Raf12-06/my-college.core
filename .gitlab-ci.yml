@@ -24,6 +24,5 @@ deploy-job:
   only:
     - master
   script:
-    - pm2 stop all
-    - pm2 start npm --name my-college.core -- run start
+    - pm2 restart my-college.core
     - pm2 save
