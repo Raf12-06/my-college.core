@@ -1,0 +1,16 @@
+POST http://localhost:8000/auth/sign-up HTTP/1.1
+content-type: application/json
+
+{
+  "username": "nail0102",
+  "password": "qwerty1234"
+}
+
+###
+POST http://localhost:8000/auth/sign-in HTTP/1.1
+content-type: application/json
+
+{
+  "username": "nail0102",
+  "password": "qwerty1234"
+}

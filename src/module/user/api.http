@@ -1,0 +1,32 @@
+POST http://localhost:8000/user/role HTTP/1.1
+content-type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJyYWZhZWwxMjA2IiwiaWF0IjoxNjc5NzM3NTkyLCJleHAiOjE2Nzk4MjM5OTJ9.F1LTdfvVnY5iXPfQDcLE9HdnIkrKUVSBh3qiV1LX8aM
+
+{
+  "value": "GLOBAL-ADMIN",
+  "userId": 1
+}
+
+###
+POST http://localhost:8000/user/personal HTTP/1.1
+content-type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJuYWlsMDEwMiIsImlhdCI6MTY3OTc3MDQwNywiZXhwIjoxNjc5ODU2ODA3fQ.fimk-PlMaNkBHCJDrXlznjTPP3Ah-HM2zvsEMwuvsvQ
+
+{
+  "personal": {
+    "email": "myhametshin06-96@mail.ru",
+    "phone": "89999999999",
+    "inn": "123456789129",
+    "passport": "8010123458"
+  },
+  "fio": {
+    "first_name": "Nail",
+    "second_name": "Myhametshin",
+    "third_name": "Railevich"
+  }
+}
+
+###
+GET http://localhost:8000/user/personal HTTP/1.1
+content-type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJyYWZhZWwxMjA2IiwiaWF0IjoxNjc5NzcwMDIwLCJleHAiOjE2Nzk4NTY0MjB9.oPM0KQY-h_D3F-XzCG4Bc8SSK9uYCu-sCZ7DL63wmG4

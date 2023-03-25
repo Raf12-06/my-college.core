@@ -4,7 +4,17 @@ import { AppService } from './app.service';
 import { ConfigModule } from "@nestjs/config";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { SequelizeModule } from "@nestjs/sequelize";
+import { UserModule } from './module/user/user.module';
+import { AuthModule } from './module/auth/auth.module';
 import * as path from 'path';
+import {User} from "./module/user/model/user.model";
+import { PersonalModule } from './service/personal/personal.module';
+import {Personal} from "./service/personal/model/personal.model";
+import {Identity} from "./service/personal/model/identity.model";
+import { RoleModule } from './module/role/role.module';
+import {Role} from "./module/role/model/role.model";
+import {UserRole} from "./module/role/model/user-role.model";
+import {Fio} from "./service/personal/model/fio.model";
 
 @Module({
   imports: [
@@ -22,10 +32,19 @@ import * as path from 'path';
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DB,
       models: [
-
+          User,
+          Personal,
+          Identity,
+          Role,
+          UserRole,
+          Fio,
       ],
       autoLoadModels: true,
     }),
+    UserModule,
+    AuthModule,
+    PersonalModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
