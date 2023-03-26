@@ -5,6 +5,8 @@ import {AddRoleDto} from "./dto/add-role.dto";
 import {RoleService} from "../role/role.service";
 import {UpdatePersonalDto} from "./dto/update-personal.dto";
 import {PersonalService} from "../../service/personal/personal.service";
+import {UploadService} from "../../service/upload/upload.service";
+import fastify = require('fastify');
 
 @Injectable()
 export class UserService {
@@ -12,8 +14,10 @@ export class UserService {
     constructor(
         @InjectModel(User)
         private userRepository: typeof User,
+
         private roleService: RoleService,
         private personalService: PersonalService,
+        private uploadService: UploadService,
     ) {}
 
     /** Добавить пользователя */
@@ -58,6 +62,13 @@ export class UserService {
     /** Получить персональные данные */
     async getPersonal(userId: number) {
         return await this.personalService.getUserPersonalInfo(userId);
+    }
+
+    /** Загрузить аватарку пользоателя */
+    async uploadAvatar(userId: number, req: fastify.FastifyRequest) {
+        const files = await this.uploadService.uploadFile(req);
+        console.log(files);
+        return files;
     }
 
     /** Получить пользователя по нику */

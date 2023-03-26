@@ -15,6 +15,7 @@ import { RoleModule } from './module/role/role.module';
 import {Role} from "./module/role/model/role.model";
 import {UserRole} from "./module/role/model/user-role.model";
 import {Fio} from "./service/personal/model/fio.model";
+import { UploadModule } from './service/upload/upload.module';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import {Fio} from "./service/personal/model/fio.model";
       envFilePath: `.${process.env.NODE_ENV}.env`
     }),
     ServeStaticModule.forRoot({
-      rootPath: path.resolve(__dirname, 'static')
+      rootPath: path.resolve(__dirname, '..', 'static')
     }),
     SequelizeModule.forRoot({
       dialect: 'mysql',
@@ -45,6 +46,7 @@ import {Fio} from "./service/personal/model/fio.model";
     AuthModule,
     PersonalModule,
     RoleModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

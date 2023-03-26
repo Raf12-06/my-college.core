@@ -6,6 +6,7 @@ import { UserController } from './user.controller';
 import {RoleModule} from "../role/role.module";
 import {AuthModule} from "../auth/auth.module";
 import {PersonalModule} from "../../service/personal/personal.module";
+import {UploadModule} from "../../service/upload/upload.module";
 
 @Module({
   providers: [UserService],
@@ -16,6 +17,7 @@ import {PersonalModule} from "../../service/personal/personal.module";
       RoleModule,
       forwardRef(() => AuthModule),
       PersonalModule,
+      UploadModule,
   ],
   exports: [
       UserService,
