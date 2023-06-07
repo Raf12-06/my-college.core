@@ -1,12 +1,13 @@
-import {Body, Controller, Get, Post, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Post, Req, UseGuards, UseInterceptors} from '@nestjs/common';
 import {UserService} from "./user.service";
 import {AddRoleDto} from "./dto/add-role.dto";
 import {RolesGuard} from "../auth/roles.guard";
-import {Roles} from "../../decorator/roles-auth.decorator";
+import {Roles} from "../../system/decorator/roles-auth.decorator";
 import {UpdatePersonalDto} from "./dto/update-personal.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
-import {CurUser} from "../../decorator/user-auth.decorator";
+import {CurUser} from "../../system/decorator/user-auth.decorator";
 import { FastifyRequest } from 'fastify';
+import {UploadFileInterceptor} from "../../system/interceptors/uploadFile.interceptor";
 
 @Controller('user')
 export class UserController {
@@ -17,6 +18,7 @@ export class UserController {
 
     @UseGuards(JwtAuthGuard)
     @Post('/avatar')
+    @UseInterceptors(UploadFileInterceptor)
     uploadAvatar(
         @CurUser() user,
         @Req() req: FastifyRequest

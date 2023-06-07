@@ -10,7 +10,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJy
 ###
 POST http://localhost:8000/user/personal HTTP/1.1
 content-type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJuYWlsMDEwMiIsImlhdCI6MTY3OTc3MDQwNywiZXhwIjoxNjc5ODU2ODA3fQ.fimk-PlMaNkBHCJDrXlznjTPP3Ah-HM2zvsEMwuvsvQ
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJuYWlsMDEwMiIsImlhdCI6MTY4NTk4ODE4MywiZXhwIjoxNjg2MDc0NTgzfQ.g8Zk043qjlNV2yQUw9GbW5pSS4KXFlX0DfKlPzCEFJ8
 
 {
   "personal": {
@@ -29,4 +29,4 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJu
 ###
 GET http://localhost:8000/user/personal HTTP/1.1
 content-type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJyYWZhZWwxMjA2IiwiaWF0IjoxNjc5NzcwMDIwLCJleHAiOjE2Nzk4NTY0MjB9.oPM0KQY-h_D3F-XzCG4Bc8SSK9uYCu-sCZ7DL63wmG4
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJuYWlsMDEwMiIsImlhdCI6MTY4NTk4ODE4MywiZXhwIjoxNjg2MDc0NTgzfQ.g8Zk043qjlNV2yQUw9GbW5pSS4KXFlX0DfKlPzCEFJ8

@@ -16,6 +16,9 @@ import {Role} from "./module/role/model/role.model";
 import {UserRole} from "./module/role/model/user-role.model";
 import {Fio} from "./service/personal/model/fio.model";
 import { UploadModule } from './service/upload/upload.module';
+import { StudentModule } from './module/student/student.module';
+import { SpecializationModule } from './module/specialization/specialization.module';
+import { GroupModule } from './module/group/group.module';
 
 @Module({
   imports: [
@@ -41,12 +44,16 @@ import { UploadModule } from './service/upload/upload.module';
           Fio,
       ],
       autoLoadModels: true,
+      synchronize: true,
     }),
     UserModule,
     AuthModule,
     PersonalModule,
     RoleModule,
     UploadModule,
+    StudentModule,
+    SpecializationModule,
+    GroupModule,
   ],
   controllers: [AppController],
   providers: [AppService],

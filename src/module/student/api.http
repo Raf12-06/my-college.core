@@ -1,0 +1,16 @@
+
+### Создать студента
+POST http://localhost:8000/student/create
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJuYWlsMDEwMiIsInJvbGVzIjpbeyJpZCI6MSwidmFsdWVzIjoiVVNFUiIsImRlc2NyaXB0aW9uIjoiVXNlciIsImNyZWF0ZWRBdCI6IjIwMjMtMDEtMDFUMDA6MDA6MDAuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDEtMDFUMDA6MDA6MDAuMDAwWiIsIlVzZXJSb2xlIjp7ImlkIjo0LCJyb2xlSWQiOjEsInVzZXJJZCI6M319LHsiaWQiOjIsInZhbHVlcyI6IkFETUlOIiwiZGVzY3JpcHRpb24iOiJBZG1pbiIsImNyZWF0ZWRBdCI6IjIwMjMtMDEtMDFUMDA6MDA6MDAuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDEtMDFUMDA6MDA6MDAuMDAwWiIsIlVzZXJSb2xlIjp7ImlkIjozLCJyb2xlSWQiOjIsInVzZXJJZCI6M319XSwiaWF0IjoxNjg2MTU3MTE1LCJleHAiOjE2ODYyNDM1MTV9.-RTemgHIf6VH1EkH6g73L2lFMRe6iYiiz-24CzIy4Yo
+
+{
+  "order_num": "124141245",
+  "order_date": "1996-06-12",
+  "group_id": 1,
+  "first_name": "Рафаиль",
+  "second_name": "Мухаметшин",
+  "third_name": "Раилевич"
+}
+
+###

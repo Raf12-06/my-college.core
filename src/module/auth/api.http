@@ -1,3 +1,4 @@
+### Зарегестрироватся
 POST http://localhost:8000/auth/sign-up HTTP/1.1
 content-type: application/json
 
@@ -6,7 +7,7 @@ content-type: application/json
   "password": "qwerty1234"
 }
 
-###
+### Войти
 POST http://localhost:8000/auth/sign-in HTTP/1.1
 content-type: application/json
 

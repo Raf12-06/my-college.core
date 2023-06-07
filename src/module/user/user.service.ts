@@ -14,7 +14,6 @@ export class UserService {
     constructor(
         @InjectModel(User)
         private userRepository: typeof User,
-
         private roleService: RoleService,
         private personalService: PersonalService,
         private uploadService: UploadService,
@@ -24,14 +23,10 @@ export class UserService {
     async createUser(data: UserCreatAttrs): Promise<User> {
         const user = await this.userRepository.create(data);
         const role = await this.roleService.getRoleByValue('USER');
+        await user.$set('roles', [role.id])
+        user.roles = [role];
 
-        const identity = await this.personalService.createIdentity(user.id);
-
-        await Promise.all([
-            user.$set('roles', [role.id]),
-            identity.$create('personal', { identityId: identity.id }),
-            identity.$create('fio', { identityId: identity.id }),
-        ]);
+        await this.personalService.createPersonal(user.id);
 
         return user;
     }
@@ -54,21 +49,19 @@ export class UserService {
             throw new HttpException('Пустое тело запроса', HttpStatus.BAD_REQUEST);
         }
 
-        await this.personalService.updateUserPersonalInfo(userId, dto);
+        await this.personalService.editPersonal(userId, dto);
 
         return dto;
     }
 
     /** Получить персональные данные */
     async getPersonal(userId: number) {
-        return await this.personalService.getUserPersonalInfo(userId);
+        return await this.personalService.getPersonalInfo(userId);
     }
 
     /** Загрузить аватарку пользоателя */
     async uploadAvatar(userId: number, req: fastify.FastifyRequest) {
-        const files = await this.uploadService.uploadFile(req);
-        console.log(files);
-        return files;
+        return await this.uploadService.uploadFile(req);
     }
 
     /** Получить пользователя по нику */
@@ -76,7 +69,8 @@ export class UserService {
         return await this.userRepository.findOne({
             where: {
                 username,
-            }
-        })
+            },
+            include: { all: true }
+        });
     }
 }
