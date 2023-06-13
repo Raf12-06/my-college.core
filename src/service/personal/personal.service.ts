@@ -6,6 +6,7 @@ import {Fio} from "./model/fio.model";
 import {PersonalCryptService} from "./personal.crypt-service";
 import {PersonalSql} from "./model/sql/personal.sql";
 import {FioSql} from "./model/sql/fio.sql";
+import {PersonalInfoI} from "./personal.interface";
 
 @Injectable()
 export class PersonalService {
@@ -28,11 +29,11 @@ export class PersonalService {
         }))?.id;
     }
 
-    public async getPersonalInfo(entryIdentity: number | string): Promise<{
-        personal: Personal,
-        fio: Fio,
-    }> {
+    public async getPersonalInfo(entryIdentity: number | string): Promise<PersonalInfoI | null> {
         const idIdentity = await this.getIdentityId(entryIdentity);
+        if (!idIdentity) {
+            return null;
+        }
 
         const [
             encryptPersonal,
@@ -48,7 +49,7 @@ export class PersonalService {
         ] = await Promise.all([
             this.personalCryptService.decryptIvData(encryptPersonal),
             this.personalCryptService.decryptData(encryptFio),
-        ])
+        ]);
 
         return {
             personal: decryptPersonal,

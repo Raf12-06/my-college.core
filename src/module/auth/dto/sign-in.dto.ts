@@ -1,8 +1,8 @@
-import {IsOptional, IsString} from "class-validator";
+import {IsString} from "class-validator";
 
 export class SignInDto {
 
-    @IsString()
+    @IsString({ message: 'Некорректный логин' })
     readonly username: string;
 
     @IsString({ message: 'Некорректный пароль' })

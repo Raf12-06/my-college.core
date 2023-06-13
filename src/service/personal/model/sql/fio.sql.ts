@@ -18,11 +18,12 @@ export class FioSql {
         });
     }
 
-    async getFio(identityId: number): Promise<Fio> {
+    async getFio(identityId: number): Promise<Partial<Fio>> {
         return await this.fioRepo.findOne({
             where: {
                 identity_id: identityId,
             },
+            attributes: ['first_name', 'second_name', 'third_name'],
             raw: true,
         });
     }

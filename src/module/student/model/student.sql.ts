@@ -7,10 +7,14 @@ export class StudentSql {
 
     constructor(
         @InjectModel(Student)
-        private studentRepository: typeof Student
+        private studentRepo: typeof Student
     ) {}
 
     public async insert(data: Partial<Student>): Promise<Student> {
-        return await this.studentRepository.create(data);
+        return await this.studentRepo.create(data);
+    }
+
+    public async get(idStudent: number): Promise<Student> {
+        return await this.studentRepo.findByPk(idStudent);
     }
 }

@@ -55,8 +55,11 @@ export class AuthService {
 
     async signIn(signInDto: SignInDto): Promise<{ token: string }> {
         const user = await this.userService.getUserByUsername(signInDto.username);
+        if (!user) {
+            throw new UnauthorizedException({ message: 'Введены неверные данные' });
+        }
         const isPasswordTrue = await argon.verify(user?.password, signInDto.password);
-        if (!isPasswordTrue || !user) {
+        if (!isPasswordTrue) {
             throw new UnauthorizedException({ message: 'Введены неверные данные' });
         }
 

@@ -18,11 +18,12 @@ export class PersonalSql {
         });
     }
 
-    async getPersonal(identityId: number): Promise<Personal> {
+    async getPersonal(identityId: number): Promise<Partial<Personal>> {
         return await this.personalRepo.findOne({
             where: {
                 identity_id: identityId,
             },
+            attributes: ['email', 'phone', 'inn', 'passport'],
             raw: true,
         });
     }

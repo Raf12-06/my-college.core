@@ -1,4 +1,15 @@
-import {BelongsTo, Column, DataType, ForeignKey, Index, IsDate, Length, Model, Table} from "sequelize-typescript";
+import {
+    BelongsTo,
+    Column,
+    DataType,
+    ForeignKey,
+    Index,
+    IsDate,
+    IsUUID,
+    Length,
+    Model,
+    Table
+} from "sequelize-typescript";
 import {Group} from "../../group/model/group.model";
 
 @Table({ tableName: 'student' })

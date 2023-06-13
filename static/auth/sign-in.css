@@ -1,0 +1,22 @@
+#main {
+    background-color: silver;
+    width: 300px;
+    height: 300px;
+    place-content: center;
+    display: grid;
+    margin: auto;
+}
+
+p {
+    margin: 1px;
+}
+
+#submit {
+    margin: 10px 0 0 0;
+}
+
+#errMsg {
+    background-color: orangered;
+    padding: 5px;
+    text-align: center;
+}
