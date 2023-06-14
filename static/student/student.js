@@ -4,7 +4,7 @@ const idStudent = urlParams.get('student_id');
 if (idStudent) {
     fetch(`/student/${idStudent}`).then(res => {
         // if (res.status === 401) {
-        //     window.location.replace('http://stackoverflow.com');
+        //     window.location.replace('http://0.0.0.0:8001/auth/sign-in.html');
         // }
         if (res.ok) {
 

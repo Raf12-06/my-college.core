@@ -8,12 +8,13 @@
 <body>
     <div id="main">
         <p>Логин:</p>
-        <input id="username">
+        <input id="username" minlength="5"  required>
         <p>Пароль:</p>
-        <input id="password" type="password">
-        <button id="#sbmt">Войти</button>
+        <input id="password" type="password" minlength="5" required>
+        <button id="#submit" style="margin-top: 10px">Войти</button>
 
-        <script src="sign-in.js"></script>
     </div>
+
+    <script src="sign-in.js"></script>
 </body>
 </html>

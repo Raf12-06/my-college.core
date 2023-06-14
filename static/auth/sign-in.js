@@ -1,6 +1,6 @@
 let usernameInput = document.querySelector('#username');
 let passwordInput = document.querySelector('#password');
-let submit = document.getElementById('#sbmt');
+let submit = document.getElementById('#submit');
 
 submit.addEventListener('click', () => {
     if (usernameInput.value && passwordInput.value) {
@@ -16,15 +16,13 @@ submit.addEventListener('click', () => {
         }).then(async res => {
             const response = await res.json();
             if (res.ok) {
-                document.cookie = `Authorization=${response.token}`
+                document.cookie = `authorization=${response.token}; path=/`
             } else {
-                const div = document.createElement('div');
-                div.innerHTML = `
-                <div id="errMsg">
-                    <h3>${response.message}</h3>
-                <div>
-            `;
-                document.body.prepend(div);
+                usernameInput.value = '';
+                passwordInput.value = '';
+
+                usernameInput.setAttribute('style', 'border: 1px solid red;');
+                passwordInput.setAttribute('style', 'border: 1px solid red;');
             }
         });
     }

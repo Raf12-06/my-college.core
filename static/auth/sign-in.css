@@ -5,18 +5,9 @@
     place-content: center;
     display: grid;
     margin: auto;
+    border-radius: 5px;
 }
 
 p {
     margin: 1px;
-}
-
-#submit {
-    margin: 10px 0 0 0;
-}
-
-#errMsg {
-    background-color: orangered;
-    padding: 5px;
-    text-align: center;
 }
