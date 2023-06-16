@@ -34,15 +34,18 @@ export class RolesGuard implements CanActivate {
 
             const cookieRaw = req.headers?.cookie;
             const cookieEntry = cookieRaw.split(';');
-            const jwt = cookieEntry[1];
+            const cookie = cookieEntry.reduce((s, v) => {
+                const [name, val] = v.split('=');
+                s[name.trim()] = val.trim();
+                return s;
+            }, {});
 
-            if (!jwt) {
+            if (!cookie.authorization) {
                 new Error();
             }
 
-            user = this.jwtService.verify(jwt);
+            user = this.jwtService.verify(cookie.authorization);
         } catch (e) {
-            console.log(e);
             throw new UnauthorizedException({message: 'Пользователь не авторизован'});
         }
 

@@ -1,29 +1,41 @@
-let usernameInput = document.querySelector('#username');
-let passwordInput = document.querySelector('#password');
-let submit = document.getElementById('#submit');
+const submitBtn = document.querySelector('.btn');
+const inputLogin = document.getElementById('inputLogin');
+const inputPass = document.getElementById('inputPass');
 
-submit.addEventListener('click', () => {
-    if (usernameInput.value && passwordInput.value) {
-        fetch(`/auth/sign-in`, {
+submitBtn.addEventListener('click', () => {
+    if (inputLogin.value && inputPass.value) {
+        fetch('/auth/sign-in', {
             method: 'POST',
-            body: JSON.stringify({
-                username: usernameInput.value,
-                password: passwordInput.value,
-            }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json;charset=utf-8'
             },
+            body: JSON.stringify({
+                username: inputLogin.value,
+                password: inputPass.value,
+            })
         }).then(async res => {
-            const response = await res.json();
             if (res.ok) {
-                document.cookie = `authorization=${response.token}; path=/`
+                let data = await res.json();
+                document.cookie = `authorization=${data.token}; path=/;`
             } else {
-                usernameInput.value = '';
-                passwordInput.value = '';
+                inputLogin.value = '';
+                inputPass.value = '';
 
-                usernameInput.setAttribute('style', 'border: 1px solid red;');
-                passwordInput.setAttribute('style', 'border: 1px solid red;');
+                const errModal = document.getElementById('popup');
+                errModal.classList.add('open');
+
+                const closeErrModal = document.getElementById('popup_close')
+                closeErrModal.addEventListener('click', () => {
+                    errModal.classList.remove('open');
+                });
+
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        errModal.classList.remove('open');
+                    }
+                })
             }
-        });
+        })
     }
-});
+})
+

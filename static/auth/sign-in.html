@@ -6,13 +6,37 @@
     <link rel="stylesheet" href="sign-in.css">
 </head>
 <body>
-    <div id="main">
-        <p>Логин:</p>
-        <input id="username" minlength="5"  required>
-        <p>Пароль:</p>
-        <input id="password" type="password" minlength="5" required>
-        <button id="#submit" style="margin-top: 10px">Войти</button>
 
+    <header>
+        <h2 class="logo">ОКСК</h2>
+    </header>
+
+    <div class="wrapper">
+        <div class="form-box login">
+            <h2>Войти</h2>
+            <form action="#">
+                <div class="input-box">
+                    <span class="icon"><img src="../icons/login.png" alt="login"></span>
+                    <input type="text" id="inputLogin" required>
+                    <label>Логин</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><img src="../icons/lock.png" alt=""></span>
+                    <input type="password" id="inputPass" required>
+                    <label>Пароль</label>
+                </div>
+                <button type="submit" class="btn">Войти</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup_body">
+            <button id="popup_close" class="popup_close">
+                <img src="../icons/close-black24.png" alt="close">
+            </button>
+            <div class="popup_title">Введены неверные данные!</div>
+        </div>
     </div>
 
     <script src="sign-in.js"></script>
