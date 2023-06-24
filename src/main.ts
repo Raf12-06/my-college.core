@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ValidationPipe } from '@nestjs/common';
 import fastifyMultipart from "@fastify/multipart";
+import { join } from 'path';
+import { readdirSync } from 'fs';
 
 async function bootstrap() {
 
@@ -23,7 +25,25 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
-  }))
+  }));
+
+  app.useStaticAssets({
+    root: join(__dirname, '..', 'public'),
+    prefix: '/public/',
+  });
+
+  app.setViewEngine({
+    engine: {
+      handlebars: require('handlebars'),
+    },
+    root: join(__dirname, '..', 'views'),
+    options: {
+      partials: Object.fromEntries(
+          readdirSync(join(__dirname, '..', 'views/partials'))
+              .map(v => [v.slice(null, -4), 'partials/' + v])
+      )
+    }
+  });
 
   await app.listen(PORT, (() => {
     console.log(`Start on ${PORT}...`);

@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "JetBrains Mono Light", serif;
+}
+
+header {
+    position: fixed;
+    /*top: 0;*/
+    /*left: 0;*/
+    width: 100%;
+    height: 50px;
+    padding: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+    backdrop-filter: blur(3px);
+    border-bottom: 1px solid black;
+}
+
+.navigation a {
+    color: black;
+    position: relative;
+    font-size: 1.1em;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.inline {
+    display: inline-block; /* Делаем блоки по горизонтали */
+    display: -moz-inline-stack;
+    vertical-align:top; /* Выравниваем их сверху */
+    top: 50px;
+}
+
+.left-block {
+    position: fixed;
+    width:80%; /*Задаем ширину в процентах чтобы сделать ее резиновой*/
+    height:500px; /* Высота блока */
+    left: 0;
+    overflow: hidden;
+    z-index: 99;
+}
+
+.content {
+    position: absolute;
+    width:65%;
+    min-width: 40%;
+    right: 300px;
+    margin-top: 30px;
+}
+
+.right-block {
+    position: fixed;
+    width:300px;
+    height:500px;
+    right: 0;
+    padding: 10px;
+    margin-top: 30px;
+}
+
+.main_info {
+    margin: 0 10px;
+}
+
+.order_info {
+    text-align: center;
+}
+
+.fio {
+    margin: 10px 10px 20px 0;
+    font-size: 2em;
+    font-family: "JetBrains Mono SemiBold", serif;
+}
+
+.contact {
+    margin: 50px 10px;
+}
+
+.right-block button {
+    color: black;
+    font-size: 1.1em;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0 5px;
+    transition: .5s;
+    margin-top: 5px;
+}
+
+.edit_stud:hover {
+    background-color: greenyellow;
+}
+
+.dismiss:hover {
+    background-color: red;
+}
+
+.root-nav {
+    width: 200px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.root-nav li {
+    list-style-type: none;
+    padding: 0;
+    position: relative;
+}
+
+.root-nav a {
+    text-decoration: none;
+    color: black;
+    display: block;
+    padding: 5px 30px;
+    cursor: pointer;
+}
+
+.root-nav span {
+    text-decoration: none;
+    color: black;
+    display: block;
+    padding: 5px 30px;
+    cursor: pointer;
+    background-color: gainsboro;
+}
+
+.root-nav ul {
+    display: none;
+    position: absolute;
+    right: -150px;
+    top: 0;
+    width: 150px;
+    background-color: ghostwhite;
+    box-shadow: 5px 6px 19px 0 rgba(0, 0, 0, 0.31);
+}
+
+ul.sub-menu-active {
+    display: block;
+}
+
+span.sub-menu-active {
+    background-color: grey;
+}
+
+.popup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 100;
+}
+
+.popup_body {
+    border-radius: 3px;
+    background-color: red;
+    padding: 35px 60px;
+    position: relative;
+    max-width: 60%;
+}
+
+.popup_body button {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    right: 10px;
+    top: 10px;
+}
+
+.popup.open {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup_title {
+    font-size: 2em;
+}

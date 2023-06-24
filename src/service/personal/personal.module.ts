@@ -7,6 +7,8 @@ import {Fio} from "./model/fio.model";
 import {PersonalCryptService} from "./personal.crypt-service";
 import {PersonalSql} from "./model/sql/personal.sql";
 import {FioSql} from "./model/sql/fio.sql";
+import {Contact} from "./model/contact.model";
+import {ContactSql} from "./model/sql/contact.sql";
 
 @Module({
   providers: [
@@ -14,6 +16,7 @@ import {FioSql} from "./model/sql/fio.sql";
       PersonalCryptService,
       PersonalSql,
       FioSql,
+      ContactSql,
   ],
   exports: [PersonalService],
   imports: [
@@ -21,6 +24,7 @@ import {FioSql} from "./model/sql/fio.sql";
           Identity,
           Personal,
           Fio,
+          Contact,
       ])
   ]
 })

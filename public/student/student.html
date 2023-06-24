@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="styles/student.css">
+</head>
+<body>
+    <header>
+        <h2 class="logo">Карточка студента</h2>
+        <nav class="navigation">
+            <a href="#">Быстрый поиск</a>
+            <a href="#">Глобальный поиск</a>
+        </nav>
+    </header>
+
+    <div class="main inline">
+        <div class="left-block inline">
+            <ul class="root-nav">
+                <li><a href="https://ya.ru/">yandex</a></li>
+                <li>
+                    <span>Документы</span>
+                    <ul>
+                        <li><a href="#">Приказы</a></li>
+                        <li><a href="#">Ведомости</a></li>
+                        <li><a href="#">Прочие</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Специальности</a></li>
+                <li>
+                    <span>Группы</span>
+                    <ul>
+                        <li><a href="#">1</a></li>
+                        <li>
+                            <span>-----></span>
+                            <ul>
+                                <li><a href="#">Приказы</a></li>
+                                <li><a href="#">Ведомости</a></li>
+                                <li>
+                                    <span>Документы</span>
+                                    <ul>
+                                        <li><a href="#">Приказы</a></li>
+                                        <li><a href="#">Ведомости</a></li>
+                                        <li><a href="#">Прочие</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="#">3</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Студенты</a></li>
+            </ul>
+        </div>
+        <div class="content inline">
+            <div class="main_info">
+                <p id="order_info" class="order_info"></p>
+                <p id="fio" class="fio"></p>
+                <p id="group_number" class="group_number"></p>
+                <p id="specialization" class="specialization"></p>
+            </div>
+            <div class="contact">
+                <img src="../icons/phone24.png" alt="phone">
+                <span class="phone" id="phone"></span><br/>
+                <br/>
+                <img src="../icons/mail24.png" alt="mail">
+                <span class="mail" id="mail"></span>
+            </div>
+            <div class="document">
+                <span>Пасспорт:</span><span class="passport" id="passport"></span><br/>
+                <span>ИНН:</span><span class="inn" id="inn"></span><br/>
+            </div>
+        </div>
+        <div class="right-block inline">
+            <button type="submit" class="edit_stud">Редактировать</button>
+            <button type="submit" class="dismiss">Отчислить</button>
+        </div>
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup_body">
+            <button id="popup_close" class="popup_close">
+                <img src="../icons/close-black24.png" alt="close">
+            </button>
+            <p class="popup_title" id="popup_title"></p>
+            <p class="popup_text" id="popup_text"></p>
+        </div>
+    </div>
+
+    <script src="source/student.js"></script>
+</body>
+</html>

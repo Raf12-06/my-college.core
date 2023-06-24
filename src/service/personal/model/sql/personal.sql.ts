@@ -23,7 +23,7 @@ export class PersonalSql {
             where: {
                 identity_id: identityId,
             },
-            attributes: ['email', 'phone', 'inn', 'passport'],
+            attributes: ['inn', 'passport'],
             raw: true,
         });
     }

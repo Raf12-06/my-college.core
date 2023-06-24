@@ -6,6 +6,7 @@ import {StudentService} from "./student.service";
 import {StudentSql} from "./model/student.sql";
 import {PersonalModule} from "../../service/personal/personal.module";
 import {AuthModule} from "../auth/auth.module";
+import {Contact} from "../../service/personal/model/contact.model";
 
 @Module({
   controllers: [StudentController],
@@ -15,7 +16,8 @@ import {AuthModule} from "../auth/auth.module";
   ],
   imports: [
       SequelizeModule.forFeature([
-          Student
+          Student,
+          Contact,
       ]),
       PersonalModule,
       AuthModule

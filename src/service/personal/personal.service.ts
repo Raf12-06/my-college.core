@@ -7,6 +7,8 @@ import {PersonalCryptService} from "./personal.crypt-service";
 import {PersonalSql} from "./model/sql/personal.sql";
 import {FioSql} from "./model/sql/fio.sql";
 import {PersonalInfoI} from "./personal.interface";
+import {ContactSql} from "./model/sql/contact.sql";
+import {Contact} from "./model/contact.model";
 
 @Injectable()
 export class PersonalService {
@@ -17,6 +19,7 @@ export class PersonalService {
         private personalCryptService: PersonalCryptService,
         private personalSQL: PersonalSql,
         private fioSQL: FioSql,
+        private contactSQL: ContactSql,
     ) {}
 
     private async getIdentityId(entryIdentity: number | string): Promise<number> {
@@ -37,35 +40,30 @@ export class PersonalService {
 
         const [
             encryptPersonal,
-            encryptFio
+            encryptFio,
+            encryptContact,
         ] = await Promise.all([
             this.personalSQL.getPersonal(idIdentity),
-            this.fioSQL.getFio(idIdentity)
-        ])
-
-        const [
-            decryptPersonal,
-            decryptFio,
-        ] = await Promise.all([
-            this.personalCryptService.decryptIvData(encryptPersonal),
-            this.personalCryptService.decryptData(encryptFio),
+            this.fioSQL.getFio(idIdentity),
+            this.contactSQL.getContact(idIdentity),
         ]);
+
+        const decryptPersonal = this.personalCryptService.decryptIvData(encryptPersonal);
+        const decryptFio = this.personalCryptService.decryptData(encryptFio);
+        const decryptContact = encryptContact.map(v => this.personalCryptService.decryptData(v))
 
         return {
             personal: decryptPersonal,
             fio: decryptFio,
+            contact: decryptContact,
         }
     }
 
-    public async editPersonal(entryIdentity: number | string, data: {
-        fio?: Partial<Fio>,
-        personal?: Partial<Personal>
-    }): Promise<void> {
+    public async editPersonal(entryIdentity: number | string, data: Partial<PersonalInfoI>): Promise<void> {
 
         const idIdentity = await this.getIdentityId(entryIdentity);
 
         if (data.fio) {
-
             const encryptFio = this.personalCryptService.encryptData(data.fio);
             await this.fioSQL.updateFio(idIdentity, {
                 first_name: encryptFio.first_name,
@@ -75,14 +73,25 @@ export class PersonalService {
         }
 
         if (data.personal) {
-
             const encryptPersonal = this.personalCryptService.encryptIvData(data.personal);
             await this.personalSQL.updatePersonal(idIdentity, {
-                email: encryptPersonal.email,
-                phone: encryptPersonal.phone,
                 inn: encryptPersonal.inn,
                 passport: encryptPersonal.passport,
-            })
+            });
+        }
+
+        if (data.contact?.length) {
+            const encryptContact = data.contact.map(v => ({
+                id: v.id,
+                contact_type: v.contact_type,
+                contact_value: this.personalCryptService.encrypt(v.contact_value),
+                contact_description: v.contact_description,
+            }));
+
+            const contactUpdatePromise = encryptContact.map(v => {
+                if (v.id) return this.contactSQL.updateContact(v.id, v);
+            });
+            await Promise.all(contactUpdatePromise);
         }
     }
 

@@ -6,7 +6,6 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { UserModule } from './module/user/user.module';
 import { AuthModule } from './module/auth/auth.module';
-import * as path from 'path';
 import {User} from "./module/user/model/user.model";
 import { PersonalModule } from './service/personal/personal.module';
 import {Personal} from "./service/personal/model/personal.model";
@@ -19,14 +18,12 @@ import { UploadModule } from './service/upload/upload.module';
 import { StudentModule } from './module/student/student.module';
 import { SpecializationModule } from './module/specialization/specialization.module';
 import { GroupModule } from './module/group/group.module';
+import {Contact} from "./service/personal/model/contact.model";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`
-    }),
-    ServeStaticModule.forRoot({
-      rootPath: path.resolve(__dirname, '..', 'static')
     }),
     SequelizeModule.forRoot({
       dialect: 'mysql',
@@ -42,6 +39,7 @@ import { GroupModule } from './module/group/group.module';
           Role,
           UserRole,
           Fio,
+          Contact,
       ],
       autoLoadModels: true,
       synchronize: true,

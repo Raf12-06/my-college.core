@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import * as crypto from "crypto";
 import {CreateStudentDto} from "./dto/create-student.dto";
 import {StudentSql} from "./model/student.sql";
@@ -29,8 +29,6 @@ export class StudentService {
 
         await this.personalService.createPersonal(secureKey, {
             personal: {
-                email: data.email,
-                phone: data.phone,
                 inn: data.inn,
                 passport: data.passport,
             },
@@ -53,6 +51,9 @@ export class StudentService {
         personal: PersonalInfoI,
     }> {
         const student = await this.studentSQL.get(idStudent);
+        if (!student) {
+            throw new HttpException('студен не найден', HttpStatus.BAD_REQUEST);
+        }
 
         const group = await student.$get('group');
         const specialization = await group.$get('specialization');

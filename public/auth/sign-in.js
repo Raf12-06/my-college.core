@@ -2,6 +2,9 @@ const submitBtn = document.querySelector('.btn');
 const inputLogin = document.getElementById('inputLogin');
 const inputPass = document.getElementById('inputPass');
 
+const errModal = document.getElementById('popup');
+const closeErrModal = document.getElementById('popup_close')
+
 submitBtn.addEventListener('click', () => {
     if (inputLogin.value && inputPass.value) {
         fetch('/auth/sign-in', {
@@ -21,10 +24,8 @@ submitBtn.addEventListener('click', () => {
                 inputLogin.value = '';
                 inputPass.value = '';
 
-                const errModal = document.getElementById('popup');
-                errModal.classList.add('open');
+                await errModal.classList.add('open');
 
-                const closeErrModal = document.getElementById('popup_close')
                 closeErrModal.addEventListener('click', () => {
                     errModal.classList.remove('open');
                 });

@@ -1,6 +1,7 @@
-import { Column, DataType, HasOne, Model, Table } from "sequelize-typescript";
+import {Column, DataType, HasMany, HasOne, Model, Table} from "sequelize-typescript";
 import {Personal} from "./personal.model";
 import {Fio} from "./fio.model";
+import {Contact} from "./contact.model";
 
 export interface IdentityCreateAttrs {
     user_secure: string;
@@ -20,4 +21,7 @@ export class Identity extends Model<Identity, IdentityCreateAttrs> {
 
     @HasOne(() => Fio)
     fio: Fio;
+
+    @HasMany(() => Contact)
+    contact: Contact[];
 }

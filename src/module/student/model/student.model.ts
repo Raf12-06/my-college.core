@@ -5,7 +5,6 @@ import {
     ForeignKey,
     Index,
     IsDate,
-    IsUUID,
     Length,
     Model,
     Table

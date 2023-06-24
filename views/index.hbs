@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>App</title>
+</head>
+<body>
+
+    {{> header page_name='hello'}}
+
+    {{#with person}}
+        {{name}} {{age}}
+    {{/with}}
+
+    {{! comment }}
+
+    {{#each person_list}}
+        {{#with this}}
+            <li>{{../phrase}} {{setUpp name}} {{age}}</li>
+        {{/with}}
+    {{/each}}
+
+    {{#getList person_list}}
+        {{name}}{{age}}
+    {{/getList}}
+
+    {{bold special_str}}
+
+    <li>{{getLink "link" "https://ya.ru"}}</li>
+    <li>{{getLink 12 "/public/auth/sign-in.html?#"}}</li>
+
+    {{link "See Website" href='https://ya.ru' class="person"}}
+
+    {{sum (sum 2)}}
+
+    {{#each nav }}
+        <a href="{{url}}">
+            {{#if test}}
+                {{title}}
+            {{^}}
+                Empty
+            {{/if}}
+        </a>
+    {{/each}}
+
+    {{> menu}}
+
+</body>
+</html>
