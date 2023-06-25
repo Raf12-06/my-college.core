@@ -12,7 +12,7 @@ import {Contact} from "../../service/personal/model/contact.model";
   controllers: [StudentController],
   providers: [
       StudentService,
-      StudentSql
+      StudentSql,
   ],
   imports: [
       SequelizeModule.forFeature([

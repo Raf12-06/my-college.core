@@ -1,21 +1,26 @@
-import {Body, Controller, Get, HttpException, HttpStatus, Param, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Render, UseGuards} from '@nestjs/common';
 import {StudentService} from "./student.service";
 import {CreateStudentDto} from "./dto/create-student.dto";
 import {Roles} from "../../system/decorator/roles-auth.decorator";
 import {RolesGuard} from "../auth/roles.guard";
-import {Student} from "./model/student.model";
-import {Group} from "../group/model/group.model";
-import {Specialization} from "../specialization/model/specialization.model";
-import {PersonalInfoI} from "../../service/personal/personal.interface";
+import {StudentInfoI} from "./student.interface";
 
 @Controller('student')
 export class StudentController {
 
     constructor(
-        private studentService: StudentService
+        private studentService: StudentService,
     ) {}
 
-    @Roles('ADMIN')
+    @Roles('USER')
+    @UseGuards(RolesGuard)
+    @Render('create-student')
+    @Get('/create')
+    public async getCreateStudentPage(): Promise<void> {
+        //
+    }
+
+    @Roles('USER')
     @UseGuards(RolesGuard)
     @Post('/create')
     public async createStudent(@Body() data: CreateStudentDto): Promise<{ student_id: number }> {
@@ -24,13 +29,24 @@ export class StudentController {
 
     @Roles('USER')
     @UseGuards(RolesGuard)
+    @Render('student')
     @Get('/:student_id')
-    public async getStudent(@Param('student_id') idStudent: number): Promise<{
-        student: Student,
-        group: Group,
-        specialization: Specialization,
-        personal: PersonalInfoI,
-    }> {
-        return await this.studentService.getStudent(idStudent);
+    public async getStudent(@Param('student_id') idStudent: number): Promise<StudentInfoI> {
+        const studentInfo = await this.studentService.getStudent(idStudent);
+
+        return {
+            student: studentInfo.student,
+            personal: studentInfo.personal,
+            group: studentInfo.group,
+            specialization: studentInfo.specialization,
+        };
+    }
+
+    @Roles('USER')
+    @UseGuards(RolesGuard)
+    @Render('edit-student')
+    @Get('/edit/:student_id')
+    public async editStudent(@Param('student_id') idStudent): Promise<void> {
+        //
     }
 }

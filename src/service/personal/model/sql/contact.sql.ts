@@ -10,6 +10,10 @@ export class ContactSql {
         private contactRepo: typeof Contact,
     ) {}
 
+    async insertList(data: Partial<Contact>[]): Promise<Contact[]> {
+        return await this.contactRepo.bulkCreate(data);
+    }
+
     async getContact(idIdentity: number): Promise<Contact[]> {
         return await this.contactRepo.findAll({
             where: {

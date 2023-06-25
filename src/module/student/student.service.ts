@@ -3,10 +3,7 @@ import * as crypto from "crypto";
 import {CreateStudentDto} from "./dto/create-student.dto";
 import {StudentSql} from "./model/student.sql";
 import {PersonalService} from "../../service/personal/personal.service";
-import {Student} from "./model/student.model";
-import {Group} from "../group/model/group.model";
-import {Specialization} from "../specialization/model/specialization.model";
-import {PersonalInfoI} from "../../service/personal/personal.interface";
+import {StudentInfoI} from "./student.interface";
 
 @Injectable()
 export class StudentService {
@@ -36,7 +33,8 @@ export class StudentService {
                 first_name: data.first_name,
                 second_name: data.second_name,
                 third_name: data.third_name,
-            }
+            },
+            contact: data.list_contact,
         });
 
         return {
@@ -44,12 +42,7 @@ export class StudentService {
         }
     }
 
-    public async getStudent(idStudent: number): Promise<{
-        student: Student,
-        group: Group,
-        specialization: Specialization,
-        personal: PersonalInfoI,
-    }> {
+    public async getStudent(idStudent: number): Promise<StudentInfoI> {
         const student = await this.studentSQL.get(idStudent);
         if (!student) {
             throw new HttpException('студен не найден', HttpStatus.BAD_REQUEST);
@@ -61,9 +54,9 @@ export class StudentService {
         const personal = await this.personalService.getPersonalInfo(student.secure_key);
 
         return {
-            student,
-            group,
-            specialization,
+            student: student.dataValues,
+            group: group.dataValues,
+            specialization: specialization.dataValues,
             personal,
         };
     }

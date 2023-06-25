@@ -35,7 +35,6 @@ export class PersonalCryptService {
             encryptData[key] = this.encryptIv(value);
         }
         return encryptData;
-
     }
 
     decryptIvData(data: any): any {

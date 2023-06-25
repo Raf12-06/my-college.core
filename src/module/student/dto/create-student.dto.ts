@@ -1,6 +1,6 @@
 import {
     IsDateString,
-    IsEmail,
+    IsEmail, IsEnum,
     IsInt,
     IsOptional,
     IsPhoneNumber,
@@ -9,6 +9,8 @@ import {
     Min,
     MinLength
 } from "class-validator";
+import {Contact, ContactTypeE} from "../../../service/personal/model/contact.model";
+import {Type} from "class-transformer";
 
 export class CreateStudentDto {
 
@@ -22,14 +24,6 @@ export class CreateStudentDto {
     @IsInt()
     @Min(1)
     readonly group_id: number;
-
-    @IsEmail()
-    @IsOptional()
-    readonly email: string;
-
-    @IsPhoneNumber()
-    @IsOptional()
-    readonly phone: string;
 
     @IsString()
     @IsOptional()
@@ -48,4 +42,21 @@ export class CreateStudentDto {
     @IsString()
     @IsOptional()
     readonly third_name: string;
+
+    @IsOptional()
+    @Type(() => ContactList)
+    readonly list_contact: Contact[];
+}
+
+class ContactList {
+
+    @IsEnum(ContactTypeE)
+    contact_type: ContactTypeE;
+
+    @IsString()
+    contact_value: string;
+
+    @IsString()
+    @IsOptional()
+    contact_description: string;
 }

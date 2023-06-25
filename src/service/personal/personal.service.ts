@@ -1,14 +1,11 @@
 import {Injectable} from '@nestjs/common';
 import {Identity} from "./model/identity.model";
 import {InjectModel} from "@nestjs/sequelize";
-import {Personal} from "./model/personal.model";
-import {Fio} from "./model/fio.model";
 import {PersonalCryptService} from "./personal.crypt-service";
 import {PersonalSql} from "./model/sql/personal.sql";
 import {FioSql} from "./model/sql/fio.sql";
 import {PersonalInfoI} from "./personal.interface";
 import {ContactSql} from "./model/sql/contact.sql";
-import {Contact} from "./model/contact.model";
 
 @Injectable()
 export class PersonalService {
@@ -50,7 +47,12 @@ export class PersonalService {
 
         const decryptPersonal = this.personalCryptService.decryptIvData(encryptPersonal);
         const decryptFio = this.personalCryptService.decryptData(encryptFio);
-        const decryptContact = encryptContact.map(v => this.personalCryptService.decryptData(v))
+        const decryptContact = encryptContact.map(v => {
+            return {
+                ...v.dataValues,
+                contact_value: this.personalCryptService.decrypt(v.contact_value),
+            }
+        });
 
         return {
             personal: decryptPersonal,
@@ -95,21 +97,28 @@ export class PersonalService {
         }
     }
 
-    public async createPersonal(entryIdentity: number | string, data?: {
-        fio?: Partial<Fio>,
-        personal?: Partial<Personal>
-    }): Promise<number> {
+    public async createPersonal(entryIdentity: number | string, data?: Partial<PersonalInfoI>): Promise<number> {
         const secureHash = this.personalCryptService.encrypt(entryIdentity);
         const identity = await this.identityRepository.create({ user_secure: secureHash });
 
         let encryptFio = null;
-        if (data?.fio) {
+        if (data.fio) {
             encryptFio = this.personalCryptService.encryptData(data.fio);
         }
 
         let encryptPersonal = null;
-        if (data?.personal) {
+        if (data.personal) {
             encryptPersonal = this.personalCryptService.encryptIvData(data.personal);
+        }
+
+        let encryptContact = null;
+        if (data.contact?.length) {
+            encryptContact = data.contact.map(v => ({
+                identity_id: identity.id,
+                contact_type: v.contact_type,
+                contact_value: this.personalCryptService.encrypt(v.contact_value),
+                contact_description: v.contact_description,
+            }));
         }
 
         await Promise.all([
@@ -126,6 +135,7 @@ export class PersonalService {
                 second_name: encryptFio?.second_name,
                 third_name: encryptFio?.third_name,
             }),
+            encryptContact ? await this.contactSQL.insertList(encryptContact) : null,
         ]);
 
         return identity.id;

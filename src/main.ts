@@ -36,7 +36,7 @@ async function bootstrap() {
     engine: {
       handlebars: require('handlebars'),
     },
-    root: join(__dirname, '..', 'views'),
+    templates: join(__dirname, '..', 'views'),
     options: {
       partials: Object.fromEntries(
           readdirSync(join(__dirname, '..', 'views/partials'))

@@ -1,0 +1,122 @@
+<ul class="root-nav">
+    <li><a href="https://ya.ru/">yandex</a></li>
+    <li>
+        <span>Документы</span>
+        <ul>
+            <li><a href="#">Приказы</a></li>
+            <li><a href="#">Ведомости</a></li>
+            <li><a href="#">Прочие</a></li>
+        </ul>
+    </li>
+    <li><a href="#">Специальности</a></li>
+    <li>
+        <span>Группы</span>
+        <ul>
+            <li><a href="#">1</a></li>
+            <li>
+                <span>-----></span>
+                <ul>
+                    <li><a href="#">Приказы</a></li>
+                    <li><a href="#">Ведомости</a></li>
+                    <li>
+                        <span>Документы</span>
+                        <ul>
+                            <li><a href="#">Приказы</a></li>
+                            <li><a href="#">Ведомости</a></li>
+                            <li><a href="#">Прочие</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#">3</a></li>
+        </ul>
+    </li>
+    <li><a href="#">Студенты</a></li>
+</ul>
+
+<script>
+    document.querySelector('.root-nav')
+            .addEventListener('click', (event) => {
+
+                if (event.target['nodeName'] !== 'SPAN') return;
+                const sibling = event.target['nextElementSibling'];
+                closeAllSubMenu(sibling);
+                event.target['classList'].add('sub-menu-active');
+                sibling.classList.toggle('sub-menu-active');
+            });
+
+    function closeAllSubMenu(curr = null) {
+        let parent = [];
+        if (curr) {
+            let currParent = curr.parentNode;
+            while (currParent) {
+                if (currParent.classList.contains('root-nav')) break;
+                if (currParent.nodeName === 'UL') parent.push(currParent);
+                currParent = currParent.parentNode;
+            }
+        }
+        const subMenu = document.querySelectorAll('.root-nav ul');
+        Array.from(subMenu).forEach(item => {
+            if (item !== curr && !parent.includes(item)) item.classList.remove('sub-menu-active');
+            if (item.previousElementSibling.nodeName === 'SPAN') {
+                item.previousElementSibling.classList.remove('sub-menu-active');
+            }
+        });
+    }
+
+    document.querySelector('.root-nav').onmouseleave = closeAllSubMenu;
+
+</script>
+
+<style>
+
+    .root-nav {
+        position: fixed;
+        width: 200px;
+        margin-top: 60px;
+        margin-left: 20px;
+        z-index: 99;
+    }
+
+    .root-nav li {
+        list-style-type: none;
+        padding: 0;
+        position: relative;
+    }
+
+    .root-nav a {
+        text-decoration: none;
+        color: black;
+        display: block;
+        padding: 5px 30px;
+        cursor: pointer;
+    }
+
+    .root-nav span {
+        text-decoration: none;
+        color: black;
+        display: block;
+        padding: 5px 30px;
+        cursor: pointer;
+        background-color: gainsboro;
+    }
+
+    .root-nav ul {
+        display: none;
+        position: absolute;
+        right: -150px;
+        top: 0;
+        width: 150px;
+        background-color: ghostwhite;
+        box-shadow: 5px 6px 19px 0 rgba(0, 0, 0, 0.31);
+        z-index: 99;
+    }
+
+    ul.sub-menu-active {
+        display: block;
+    }
+
+    span.sub-menu-active {
+        background-color: grey;
+    }
+</style>

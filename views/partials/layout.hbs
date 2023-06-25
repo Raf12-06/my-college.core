@@ -1,0 +1,47 @@
+{{> header page_name=page_name}}
+
+<div class="main inline">
+
+    {{> left-menu}}
+
+    <div class="content inline">
+        {{> content}}
+    </div>
+    <div class="right-block inline">
+        {{> right-block}}
+    </div>
+</div>
+
+{{> errorPopUp}}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "JetBrains Mono Light", serif;
+    }
+
+    .inline {
+        display: inline-block;
+        display: -moz-inline-stack;
+        vertical-align:top;
+        top: 50px;
+    }
+
+    .content {
+        position: absolute;
+        width:65%;
+        min-width: 40%;
+        right: 300px;
+        margin-top: 30px;
+    }
+
+    .right-block {
+        position: fixed;
+        width:300px;
+        height:500px;
+        right: 0;
+        margin-top: 30px;
+    }
+</style>

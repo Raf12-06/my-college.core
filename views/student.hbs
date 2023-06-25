@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{personal.fio.second_name}} {{group.group_name}}{{group.group_year}}-{{group.group_num}}{{group.group_postfix}}</title>
+</head>
+<body>
+
+    {{#> layout page_name='Карточка студента'}}
+        {{#*inline "content"}}
+            {{#with student}}
+                Приказ №{{order_num}} от {{order_date}}
+            {{/with}}
+            {{#with personal}}
+                <p>{{fio.second_name}} {{fio.first_name}} {{fio.third_name}}</p>
+            {{/with}}
+
+            {{#with group}}
+                <p>{{group_name}}{{group_year}}-{{group_num}}{{group_postfix}}</p>
+            {{/with}}
+
+            <div class="contact" style="padding-top: 10px">
+                <p>Контакты:</p>
+                <ul>
+                {{#each personal.contact}}
+                    <li>{{contact_type}}: {{contact_value}} {{contact_description}}</li>
+                {{/each}}
+                </ul>
+            </div>
+
+            <div class="personal" style="padding-top: 10px">
+                <p>Персональные данные:</p>
+                <ul>
+                {{#with personal}}
+                    <li>Пасспорт: {{personal.passport}}</li>
+                    <li>ИНН: {{personal.inn}}</li>
+                {{/with}}
+                </ul>
+            </div>
+        {{/inline}}
+        {{#*inline "right-block"}}
+            <button class="btn-edit">Редактивать</button>
+        {{/inline}}
+    {{/layout}}
+
+</body>
+
+<style>
+    ul {
+        list-style-type: none;
+    }
+
+    .btn-edit {
+        border: 1px solid;
+        padding: 1px;
+        outline: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: .4s;
+    }
+
+    .btn-edit:hover {
+        background: orange;
+    }
+</style>
+</html>

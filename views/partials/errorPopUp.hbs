@@ -1,0 +1,82 @@
+<div id="popup" class="popup">
+    <div class="popup_body">
+        <button id="popup_close" class="popup_close">
+            <img src="../../public/icons/close-black24.png" alt="close">
+        </button>
+        <p class="popup_title" id="popup_title"></p>
+        <p class="popup_text" id="popup_text"></p>
+    </div>
+</div>
+
+<style>
+    .popup {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(3px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        visibility: hidden;
+        opacity: 0;
+        z-index: 100;
+    }
+
+    .popup_body {
+        border-radius: 3px;
+        background-color: red;
+        padding: 35px 60px;
+        position: relative;
+        max-width: 60%;
+    }
+
+    .popup_body button {
+        position: absolute;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        right: 10px;
+        top: 10px;
+    }
+
+    .popup.open {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .popup_title {
+        font-size: 2em;
+    }
+</style>
+
+<script>
+
+    const errModal = document.getElementById('popup');
+    const closeErrModal = document.getElementById('popup_close')
+
+    window.onerror = function(msg, url, lineNo, columnNo, error) {
+        showError(`${msg}\n${url}\nline:${lineNo} col:${columnNo}\n${error}`);
+    }
+
+    async function showError(msg, title = 'Простите, ошибка!') {
+
+        await errModal.classList.add('open');
+
+        document.getElementById('popup_title')
+                .innerText = title;
+
+        document.getElementById('popup_text')
+                .innerText = msg;
+
+        closeErrModal.addEventListener('click', () => {
+            errModal.classList.remove('open');
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                errModal.classList.remove('open');
+            }
+        })
+    }
+</script>

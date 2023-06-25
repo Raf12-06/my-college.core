@@ -1,0 +1,159 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    {{#> layout page_name='Добавить студента'}}
+        {{#*inline "content"}}
+            <form action="#" id="student-form">
+                <div class="main">
+                    <div class="fio">
+                        <label>Имя: <input type="text" name="first_name" required></label>
+                        <label>Фамилие: <input type="text" name="second_name" required></label>
+                        <label>Отчетсво: <input type="text" name="third_name" required></label>
+                    </div>
+
+                    <div class="order">
+                        <label>Приказ № <input type="text" name="order_num" required></label>
+                        <label>от <input type="date" name="order_date" required></label>
+                    </div>
+
+                    <div class="group">
+                        <label>Номер группы: <input type="number" name="group_id" required></label>
+                    </div>
+
+                    <div class="personal">
+                        <p>
+                            <label>Пасспорт: серия <input type="text" name="passport_series"></label>
+                            <label>номер <input type="text" name="passport_num"></label>
+                        </p>
+                        <p><label>ИНН: <input type="text" name="inn"></label></p>
+                    </div>
+
+                    <div class="contact" id="contact">
+                        <p>Контакты: <button class="btn-add-contact" type="button">добавить поле</button></p>
+                    </div>
+                </div>
+            </form>
+        {{/inline}}
+        {{#*inline "right-block"}}
+            <button type="submit" class="btn-create" form="student-form">Добавить</button>
+        {{/inline}}
+    {{/layout}}
+</body>
+<style>
+
+    .main div {
+        margin-top: 20px;
+    }
+
+    .main p {
+        margin-top: 5px;
+    }
+
+    .btn-create {
+        border: 1px solid;
+        padding: 1px;
+        outline: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: .4s;
+    }
+
+    .btn-create:hover {
+        background: green;
+    }
+
+    .btn-add-contact {
+        padding: 0 5px 0 5px ;
+    }
+</style>
+<script>
+
+    const listContactElement = [];
+    document.querySelector('.btn-add-contact').addEventListener('click', () => {
+        const add = document.createElement('div');
+        add.innerHTML = `
+            <select name="contact_type" required>
+                <option value="telegram">telegram</option>
+                <option value="vk">vk</option>
+                <option value="ok">ok</option>
+                <option value="instagram">instagram</option>
+                <option value="phone">phone</option>
+                <option value="main_phone">main_phone</option>
+                <option value="email">email</option>
+                <option value="whatsapp">whatsapp</option>
+                <option value="viber">viber</option>
+                <option value="other">other</option>
+            </select>
+            <input type="text" name="contact_value" required>
+            <label>
+                заметка:
+                <input type="text" name="contact_description">
+            </label>
+        `;
+        document.getElementById('contact').appendChild(add);
+        listContactElement.push(add);
+    });
+
+    const form = document.getElementById('student-form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const firstName = form.querySelector('[name="first_name"]').value;
+        const secondName = form.querySelector('[name="second_name"]').value;
+        const thirdName = form.querySelector('[name="third_name"]').value;
+
+        const orderNum = form.querySelector('[name="order_num"]').value;
+        const orderDate = form.querySelector('[name="order_date"]').value;
+
+        const idGroup = form.querySelector('[name="group_id"]').value;
+
+        const passport = form.querySelector('[name="passport_series"]').value + ' ' + form.querySelector('[name="passport_num"]').value;
+
+        const inn = form.querySelector('[name="inn"]').value;
+
+        const listContact = [];
+        if (listContactElement.length) {
+            for (let i = 0; i < listContactElement.length; i++) {
+                const contact = listContactElement[i];
+                const type = contact.querySelector('[name="contact_type"]').value;
+                const value = contact.querySelector('[name="contact_value"]').value;
+                const desc = contact.querySelector('[name="contact_description"]').value;
+                listContact.push({
+                    contact_type: type,
+                    contact_value: value,
+                    contact_description: desc,
+                });
+            }
+        }
+
+        fetch('/student/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                order_num: orderNum,
+                order_date: orderDate,
+                group_id: Number(idGroup),
+                inn,
+                passport,
+                first_name: firstName,
+                second_name: secondName,
+                third_name: thirdName,
+                list_contact: listContact,
+            })
+        }).then(async res => {
+            let data = await res.json();
+            if (res.ok) {
+                const idStudent = data.student_id;
+                window.location.replace('/student/' + idStudent);
+            } else {
+                await showError(data.message, data.error ?? data.statusCode);
+            }
+        });
+    })
+</script>
+</html>
