@@ -4,6 +4,7 @@ import {CreateStudentDto} from "./dto/create-student.dto";
 import {Roles} from "../../system/decorator/roles-auth.decorator";
 import {RolesGuard} from "../auth/roles.guard";
 import {StudentInfoI} from "./student.interface";
+import {EditStudentDto} from "./dto/edit-student.dto";
 
 @Controller('student')
 export class StudentController {
@@ -14,9 +15,17 @@ export class StudentController {
 
     @Roles('USER')
     @UseGuards(RolesGuard)
+    @Render('edit-student')
+    @Get('/edit/:student_id')
+    public async editStudentPage(@Param('student_id') idStudent): Promise<StudentInfoI> {
+        return await this.studentService.getStudent(idStudent);
+    }
+
+    @Roles('USER')
+    @UseGuards(RolesGuard)
     @Render('create-student')
     @Get('/create')
-    public async getCreateStudentPage(): Promise<void> {
+    public async createStudentPage(): Promise<void> {
         //
     }
 
@@ -32,21 +41,13 @@ export class StudentController {
     @Render('student')
     @Get('/:student_id')
     public async getStudent(@Param('student_id') idStudent: number): Promise<StudentInfoI> {
-        const studentInfo = await this.studentService.getStudent(idStudent);
-
-        return {
-            student: studentInfo.student,
-            personal: studentInfo.personal,
-            group: studentInfo.group,
-            specialization: studentInfo.specialization,
-        };
+        return await this.studentService.getStudent(idStudent);
     }
 
     @Roles('USER')
     @UseGuards(RolesGuard)
-    @Render('edit-student')
-    @Get('/edit/:student_id')
-    public async editStudent(@Param('student_id') idStudent): Promise<void> {
-        //
+    @Post('/edit')
+    public async editStudent(@Body() data: EditStudentDto): Promise<any> {
+        return await this.studentService.updateStudent(data.student_id, data);
     }
 }

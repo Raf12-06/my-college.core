@@ -9,3 +9,8 @@ export interface StudentInfoI {
     specialization: Specialization,
     personal: PersonalInfoI,
 }
+
+export interface StudentI {
+    student: Student,
+    personal: PersonalInfoI,
+}

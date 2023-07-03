@@ -2,10 +2,10 @@ import {HttpException, HttpStatus, Injectable, UnauthorizedException} from '@nes
 import {UserService} from "../user/user.service";
 import {SignUpDto} from "./dto/sign-up.dto";
 import * as argon from 'argon2';
+import {argon2i} from 'argon2';
 import {JwtService} from "@nestjs/jwt";
 import {User} from "../user/model/user.model";
 import * as crypto from 'crypto';
-import { argon2i } from "argon2";
 import {SignInDto} from "./dto/sign-in.dto";
 
 @Injectable()
@@ -53,7 +53,7 @@ export class AuthService {
         }
     }
 
-    async signIn(signInDto: SignInDto): Promise<{ token: string }> {
+    async signIn(signInDto: SignInDto): Promise<string> {
         const user = await this.userService.getUserByUsername(signInDto.username);
         if (!user) {
             throw new UnauthorizedException({ message: 'Введены неверные данные' });
@@ -63,10 +63,6 @@ export class AuthService {
             throw new UnauthorizedException({ message: 'Введены неверные данные' });
         }
 
-        const token = this.generateToken(user);
-
-        return {
-            token,
-        }
+        return this.generateToken(user);
     }
 }

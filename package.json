@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@fastify/cookie": "^8.3.0",
     "@fastify/multipart": "^7.5.0",
     "@fastify/static": "^6.10.2",
     "@fastify/view": "^7.4.1",

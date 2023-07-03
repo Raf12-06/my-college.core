@@ -3,7 +3,8 @@ import * as crypto from "crypto";
 import {CreateStudentDto} from "./dto/create-student.dto";
 import {StudentSql} from "./model/student.sql";
 import {PersonalService} from "../../service/personal/personal.service";
-import {StudentInfoI} from "./student.interface";
+import {StudentI, StudentInfoI} from "./student.interface";
+import {Student} from "./model/student.model";
 
 @Injectable()
 export class StudentService {
@@ -12,6 +13,15 @@ export class StudentService {
         private studentSQL: StudentSql,
         private personalService: PersonalService,
     ) {}
+
+    public async get(idStudent: number): Promise<Student> {
+        const student = await this.studentSQL.get(idStudent);
+        if (!student) {
+            throw new HttpException('студен не найден', HttpStatus.BAD_REQUEST);
+        }
+
+        return student;
+    }
 
     public async createStudent(data: CreateStudentDto): Promise<{ student_id: number }> {
 
@@ -43,10 +53,7 @@ export class StudentService {
     }
 
     public async getStudent(idStudent: number): Promise<StudentInfoI> {
-        const student = await this.studentSQL.get(idStudent);
-        if (!student) {
-            throw new HttpException('студен не найден', HttpStatus.BAD_REQUEST);
-        }
+        const student = await this.get(idStudent);
 
         const group = await student.$get('group');
         const specialization = await group.$get('specialization');
@@ -59,5 +66,17 @@ export class StudentService {
             specialization: specialization.dataValues,
             personal,
         };
+    }
+
+    public async updateStudent(idStudent: number, data: Partial<StudentI>): Promise<any> {
+        const student = await this.get(idStudent);
+
+        if (data.student) {
+            await this.studentSQL.update(student.id, data.student);
+        }
+
+        if (data.personal) {
+            await this.personalService.editPersonal(student.secure_key, data.personal);
+        }
     }
 }

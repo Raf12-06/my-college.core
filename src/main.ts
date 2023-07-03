@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import fastifyMultipart from "@fastify/multipart";
 import { join } from 'path';
 import { readdirSync } from 'fs';
+import fastifyCookie from '@fastify/cookie';
 
 async function bootstrap() {
 
@@ -44,6 +45,8 @@ async function bootstrap() {
       )
     }
   });
+
+  await app.register(fastifyCookie);
 
   await app.listen(PORT, (() => {
     console.log(`Start on ${PORT}...`);

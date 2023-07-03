@@ -17,4 +17,12 @@ export class StudentSql {
     public async get(idStudent: number): Promise<Student> {
         return await this.studentRepo.findByPk(idStudent);
     }
+
+    public async update(idStudent: number, data: Partial<Student>) {
+        return await this.studentRepo.update(data, {
+            where: {
+                id: idStudent,
+            }
+        });
+    }
 }
