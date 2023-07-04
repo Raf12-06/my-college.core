@@ -6,11 +6,168 @@
 <body>
     {{#> layout page_name='Редактировать студента'}}
         {{#*inline "content"}}
+            <form action="#" id="student-form">
+                {{#with personal.fio}}
+                    <label> Имя: <input value="{{first_name}}" name="first_name"></label>
+                    <label> Фамилия: <input value="{{second_name}}" name="second_name"></label>
+                    <label> Отчество: <input value="{{third_name}}" name="third_name"></label>
+                {{/with}}
 
+                {{#with personal.personal}}
+                    <label> Пасспорт: <input value="{{passport}}" name="passport"></label>
+                    <label> ИНН: <input value="{{inn}}" name="inn"></label>
+                {{/with}}
+
+                <div class="contact-list">
+                    <button class="btn-add-contact">Добавть контакт</button>
+                </div>
+            </form>
         {{/inline}}
         {{#*inline "right-block"}}
-
+            <button type="submit" class="btn-save" form="student-form">Сохранить</button>
         {{/inline}}
     {{/layout}}
 </body>
+<script>
+    const ixListContact = {};
+
+    const optionContact = `
+        <option value="telegram">telegram</option>
+        <option value="vk">vk</option>
+        <option value="ok">ok</option>
+        <option value="instagram">instagram</option>
+        <option value="phone">phone</option>
+        <option value="main_phone">main_phone</option>
+        <option value="email">email</option>
+        <option value="whatsapp">whatsapp</option>
+        <option value="viber">viber</option>
+        <option value="other">other</option>
+    `;
+
+    const listContact = JSON.parse('{{{toJson personal.contact}}}');
+    for (let i = 0; i < listContact.length; i++) {
+        const contact = listContact[i];
+
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <select name="contact_type" required>
+                <option value="${contact.contact_type}" selected>${contact.contact_type}</option>
+                ${optionContact}
+            </select>
+            <input type="text" value="${contact.contact_value}" name="contact_value" required>
+            <label>
+                Заметка:
+                <input type="text" value="${contact.contact_description}" name="contact_description">
+            </label>
+            <label>
+                <button class="btn-del-contact_${contact.id}">X</button>
+            </label>
+        `;
+
+        document.querySelector('.contact-list').appendChild(li);
+        document.querySelector(`.btn-del-contact_${contact.id}`).addEventListener('click' ,() => {
+            li.parentNode.removeChild(li);
+            delete ixListContact[contact.id];
+        });
+
+        ixListContact[contact.id] = {
+            contact_id: contact.id,
+            li
+        };
+    }
+
+    document.querySelector('.btn-add-contact').addEventListener('click', () => {
+        const num = Math.floor(Math.random() * 1000);
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <select name="contact_type" required>
+                ${optionContact}
+            </select>
+            <input type="text" name="contact_value" required>
+            <label>
+                Заметка:
+                <input type="text" name="contact_description">
+            </label>
+            <label>
+                <button class="btn-del-contact_${num}">X</button>
+            </label>
+        `;
+
+        document.querySelector('.contact-list').appendChild(li);
+        document.querySelector(`.btn-del-contact_${num}`).addEventListener('click' ,() => {
+            li.parentNode.removeChild(li);
+            delete ixListContact[num];
+        });
+
+        ixListContact[num] = {
+            li
+        };
+    });
+
+    const form = document.getElementById('student-form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const firstName = form.querySelector('[name="first_name"]').value;
+        const secondName = form.querySelector('[name="second_name"]').value;
+        const thirdName = form.querySelector('[name="third_name"]').value;
+
+        const passport = form.querySelector('[name="passport"]').value;
+        const inn = form.querySelector('[name="inn"]').value;
+
+        const listUpdateContact = [];
+        for (const id in ixListContact) {
+            const liContact = ixListContact[id];
+            listUpdateContact.push({
+                id: liContact.contact_id ?? null,
+                contact_type: liContact.li.querySelector('[name="contact_type"]').value,
+                contact_value: liContact.li.querySelector('[name="contact_value"]').value,
+                contact_description: liContact.li.querySelector('[name="contact_description"]').value,
+            });
+        }
+
+        fetch(`/student/edit/{{student.id}}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                personal: {
+                    personal: {
+                        passport,
+                        inn,
+                    },
+                    fio: {
+                        first_name: firstName,
+                        second_name: secondName,
+                        third_name: thirdName,
+                    },
+                    contact: listUpdateContact,
+                }
+            })
+        }).then(async res => {
+            let data = await res.json();
+            if (res.ok) {
+                const idStudent = data.student_id;
+                window.location.replace('/student/' + idStudent);
+            } else {
+                await showError(data.message, data.error ?? data.statusCode);
+            }
+        });
+    });
+</script>
+<style>
+    .btn-save {
+        border: 1px solid;
+        padding: 1px;
+        outline: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: .4s;
+    }
+
+    .btn-save:hover {
+        background: yellowgreen;
+    }
+</style>
 </html>

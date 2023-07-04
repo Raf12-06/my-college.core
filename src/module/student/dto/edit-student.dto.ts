@@ -1,4 +1,14 @@
-import {IsDateString, IsEnum, IsInt, IsOptional, IsString, MaxLength, Min, MinLength} from "class-validator";
+import {
+    IsDateString,
+    IsEnum,
+    IsInt,
+    IsObject,
+    IsOptional,
+    IsString,
+    MaxLength,
+    Min,
+    MinLength
+} from "class-validator";
 import {Type} from "class-transformer";
 import {Student} from "../model/student.model";
 import {PersonalInfoI} from "../../../service/personal/personal.interface";
@@ -8,13 +18,13 @@ import {Contact, ContactTypeE} from "../../../service/personal/model/contact.mod
 
 export class EditStudentDto {
 
-    @IsInt()
-    @Min(1)
-    readonly student_id: number;
-
+    @IsOptional()
+    @IsObject()
     @Type(() => EditStudent)
     readonly student: Student;
 
+    @IsOptional()
+    @IsObject()
     @Type(() => EditPersonalInfo)
     readonly personal: PersonalInfoI;
 }
@@ -35,12 +45,18 @@ class EditStudent {
 
 class EditPersonalInfo {
 
+    @IsOptional()
+    @IsObject()
     @Type(() => EditPersonal)
     readonly personal: Personal;
 
+    @IsOptional()
+    @IsObject()
     @Type(() => EditFio)
     readonly fio: Fio;
 
+    @IsOptional()
+    @IsObject()
     @Type(() => EditContact)
     readonly contact: Contact[];
 }
@@ -48,11 +64,9 @@ class EditPersonalInfo {
 class EditPersonal {
 
     @IsString()
-    @IsOptional()
     readonly inn: string;
 
     @IsString()
-    @IsOptional()
     readonly passport: string;
 }
 
@@ -65,11 +79,14 @@ class EditFio {
     readonly second_name: string;
 
     @IsString()
-    @IsOptional()
     readonly third_name: string;
 }
 
 class EditContact {
+
+    @IsInt()
+    @Min(1)
+    id: number;
 
     @IsEnum(ContactTypeE)
     contact_type: ContactTypeE;
@@ -78,6 +95,5 @@ class EditContact {
     contact_value: string;
 
     @IsString()
-    @IsOptional()
     contact_description: string;
 }

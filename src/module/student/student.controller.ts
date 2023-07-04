@@ -46,8 +46,15 @@ export class StudentController {
 
     @Roles('USER')
     @UseGuards(RolesGuard)
-    @Post('/edit')
-    public async editStudent(@Body() data: EditStudentDto): Promise<any> {
-        return await this.studentService.updateStudent(data.student_id, data);
+    @Post('/edit/:student_id')
+    public async editStudent(
+        @Body() data: EditStudentDto,
+        @Param('student_id') idStudent,
+    ): Promise<{ student_id: number }> {
+        await this.studentService.updateStudent(idStudent, data);
+
+        return {
+            student_id: idStudent,
+        }
     }
 }

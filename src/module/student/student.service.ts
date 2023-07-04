@@ -68,7 +68,7 @@ export class StudentService {
         };
     }
 
-    public async updateStudent(idStudent: number, data: Partial<StudentI>): Promise<any> {
+    public async updateStudent(idStudent: number, data: Partial<StudentI>): Promise<number> {
         const student = await this.get(idStudent);
 
         if (data.student) {
@@ -78,5 +78,7 @@ export class StudentService {
         if (data.personal) {
             await this.personalService.editPersonal(student.secure_key, data.personal);
         }
+
+        return idStudent;
     }
 }

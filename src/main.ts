@@ -6,6 +6,7 @@ import fastifyMultipart from "@fastify/multipart";
 import { join } from 'path';
 import { readdirSync } from 'fs';
 import fastifyCookie from '@fastify/cookie';
+import Handlebars from "handlebars";
 
 async function bootstrap() {
 
@@ -47,6 +48,10 @@ async function bootstrap() {
   });
 
   await app.register(fastifyCookie);
+
+  Handlebars.registerHelper('toJson', (content) => {
+    return JSON.stringify(content);
+  });
 
   await app.listen(PORT, (() => {
     console.log(`Start on ${PORT}...`);

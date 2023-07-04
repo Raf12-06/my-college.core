@@ -85,15 +85,26 @@ export class PersonalService {
         if (data.contact?.length) {
             const encryptContact = data.contact.map(v => ({
                 id: v.id,
+                identity_id: idIdentity,
                 contact_type: v.contact_type,
                 contact_value: this.personalCryptService.encrypt(v.contact_value),
                 contact_description: v.contact_description,
             }));
 
-            const contactUpdatePromise = encryptContact.map(v => {
-                if (v.id) return this.contactSQL.updateContact(v.id, v);
+            const listContact = [];
+            const listContactNew = [];
+            encryptContact.forEach(v => {
+                if (v.id) listContact.push(this.contactSQL.updateContact(v.id, v));
+                else listContactNew.push({
+                    identity_id: idIdentity,
+                    contact_type: v.contact_type,
+                    contact_value: v.contact_value,
+                    contact_description: v.contact_description,
+                });
             });
-            await Promise.all(contactUpdatePromise);
+
+            if (listContact.length) await Promise.all(listContact);
+            if (listContactNew.length) await this.contactSQL.insertList(listContactNew);
         }
     }
 
