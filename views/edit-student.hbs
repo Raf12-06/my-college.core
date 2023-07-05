@@ -108,52 +108,56 @@
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const firstName = form.querySelector('[name="first_name"]').value;
-        const secondName = form.querySelector('[name="second_name"]').value;
-        const thirdName = form.querySelector('[name="third_name"]').value;
+        const answer = await showAction(null, 'Схранить изменения?');
 
-        const passport = form.querySelector('[name="passport"]').value;
-        const inn = form.querySelector('[name="inn"]').value;
+        if (answer) {
+            const firstName = form.querySelector('[name="first_name"]').value;
+            const secondName = form.querySelector('[name="second_name"]').value;
+            const thirdName = form.querySelector('[name="third_name"]').value;
 
-        const listUpdateContact = [];
-        for (const id in ixListContact) {
-            const liContact = ixListContact[id];
-            listUpdateContact.push({
-                id: liContact.contact_id ?? null,
-                contact_type: liContact.li.querySelector('[name="contact_type"]').value,
-                contact_value: liContact.li.querySelector('[name="contact_value"]').value,
-                contact_description: liContact.li.querySelector('[name="contact_description"]').value,
+            const passport = form.querySelector('[name="passport"]').value;
+            const inn = form.querySelector('[name="inn"]').value;
+
+            const listUpdateContact = [];
+            for (const id in ixListContact) {
+                const liContact = ixListContact[id];
+                listUpdateContact.push({
+                    id: liContact.contact_id ?? null,
+                    contact_type: liContact.li.querySelector('[name="contact_type"]').value,
+                    contact_value: liContact.li.querySelector('[name="contact_value"]').value,
+                    contact_description: liContact.li.querySelector('[name="contact_description"]').value,
+                });
+            }
+
+            fetch(`/student/edit/{{student.id}}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({
+                    personal: {
+                        personal: {
+                            passport,
+                            inn,
+                        },
+                        fio: {
+                            first_name: firstName,
+                            second_name: secondName,
+                            third_name: thirdName,
+                        },
+                        contact: listUpdateContact,
+                    }
+                })
+            }).then(async res => {
+                let data = await res.json();
+                if (res.ok) {
+                    const idStudent = data.student_id;
+                    window.location.replace('/student/' + idStudent);
+                } else {
+                    await showError(data.message, data.error ?? data.statusCode);
+                }
             });
         }
-
-        fetch(`/student/edit/{{student.id}}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({
-                personal: {
-                    personal: {
-                        passport,
-                        inn,
-                    },
-                    fio: {
-                        first_name: firstName,
-                        second_name: secondName,
-                        third_name: thirdName,
-                    },
-                    contact: listUpdateContact,
-                }
-            })
-        }).then(async res => {
-            let data = await res.json();
-            if (res.ok) {
-                const idStudent = data.student_id;
-                window.location.replace('/student/' + idStudent);
-            } else {
-                await showError(data.message, data.error ?? data.statusCode);
-            }
-        });
     });
 </script>
 <style>

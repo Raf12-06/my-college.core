@@ -1,0 +1,102 @@
+<div id="action-popup" class="action-popup">
+    <div class="action_popup_body">
+        <p class="action_popup_title" id="action_popup_title"></p>
+        <p class="action_popup_text" id="action_popup_text"></p>
+        <button id="action_popup_yes" class="action_popup_yes">
+            Да
+        </button>
+        <button id="action_popup_no" class="action_popup_no">
+            Нет
+        </button>
+    </div>
+</div>
+
+<style>
+    .action-popup {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        visibility: hidden;
+        opacity: 0;
+        z-index: 100;
+    }
+
+    .action_popup_body {
+        border-radius: 3px;
+        padding: 50px 50px 80px 50px;
+        position: relative;
+        max-width: 60%;
+        box-shadow: 0 3px 33px 7px rgba(0, 0, 0, 0.2);
+    }
+
+    .action-popup.open {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .action_popup_title {
+        font-size: 2em;
+    }
+
+    .action_popup_body button {
+        transition: .4s;
+        position: absolute;
+        background-color: transparent;
+        border: solid black 1px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 1.1em;
+        padding: 3px 10px;
+        bottom: 20px;
+    }
+
+    .action_popup_yes {
+        left: 180px;
+    }
+
+    .action_popup_yes:hover {
+        background: darkgreen;
+    }
+
+    .action_popup_no {
+        right: 180px;
+    }
+
+    .action_popup_no:hover {
+        background: red;
+    }
+
+</style>
+
+<script>
+
+    const actionModal = document.getElementById('action-popup');
+    const actionYes = document.getElementById('action_popup_yes');
+    const actionNo = document.getElementById('action_popup_no');
+
+    async function showAction(msg, title = 'Подтвердите действие') {
+        return new Promise((resolve, reject) => {
+            actionModal.classList.add('open');
+
+            document.getElementById('action_popup_title')
+                    .innerText = title;
+
+            document.getElementById('action_popup_text')
+                    .innerText = msg;
+
+            actionYes.addEventListener('click', () => {
+                actionModal.classList.remove('open');
+                resolve(true);
+            });
+
+            actionNo.addEventListener('click', () => {
+                actionModal.classList.remove('open');
+                resolve(false);
+            });
+        })
+    }
+</script>
