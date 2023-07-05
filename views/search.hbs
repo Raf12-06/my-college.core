@@ -1,0 +1,46 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+{{#> layout page_name='Поиск'}}
+    {{#*inline "content"}}
+        <form action="#" id="search-form">
+            <div class="searcher">
+                <label>
+                    Строка поиска:
+                    <input type="text" required>
+                </label>
+            </div>
+        </form>
+    {{/inline}}
+    {{#*inline "right-block"}}
+        <button class="go-search" form="search-form">
+            Искать
+        </button>
+
+        <div>
+            <div>
+                <label for="in_fio">
+                    в ФИО
+                    <input type="checkbox" id="in_fio" name="in_fio" checked>
+                </label>
+            </div>
+            <div>
+                <label for="in_contact">
+                    в контактах
+                    <input type="checkbox" id="in_contact" name="in_contact" checked>
+                </label>
+            </div>
+        </div>
+    {{/inline}}
+{{/layout}}
+</body>
+<script>
+
+</script>
+<style>
+
+</style>
+</html>

@@ -19,6 +19,7 @@ import {SpecializationModule} from './module/specialization/specialization.modul
 import {GroupModule} from './module/group/group.module';
 import {Contact} from "./service/personal/model/contact.model";
 import {StudentController} from "./module/student/student.controller";
+import { SearchModule } from './module/search/search.module';
 
 @Module({
     imports: [
@@ -52,6 +53,7 @@ import {StudentController} from "./module/student/student.controller";
         StudentModule,
         SpecializationModule,
         GroupModule,
+        SearchModule,
     ],
     controllers: [AppController],
     providers: [AppService],
